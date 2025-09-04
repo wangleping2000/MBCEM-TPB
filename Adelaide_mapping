@@ -1,0 +1,1262 @@
+GEE code link: https://code.earthengine.google.com/3b2e750718053d9c0462e6b7d7f8e22d
+
+var S1 = ee.ImageCollection("COPERNICUS/S1_GRD"),
+    geometry = 
+    /* color: #999900 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[138.2713271751777, -34.5083918491509],
+          [138.2713271751777, -34.862971586092016],
+          [138.6009170189277, -34.862971586092016],
+          [138.6009170189277, -34.5083918491509]]], null, false),
+    flat2 = 
+    /* color: #009999 */
+    /* shown: false */
+    ee.Geometry.MultiPoint(
+        [[138.48532641273817, -34.76108496200024],
+         [138.33014452797258, -34.52806428128974],
+         [138.49525634577452, -34.75388323732793],
+         [138.54984466364562, -34.787725518023116],
+         [138.32266941857984, -34.51943459221767],
+         [138.31820622277905, -34.51632290585014]]),
+    water = 
+    /* color: #ff00ff */
+    /* shown: false */
+    ee.Geometry.MultiPoint(
+        [[138.36730425854714, -34.63305025428615],
+         [138.38000720044167, -34.64830325444973],
+         [138.40094988842995, -34.67541277105929],
+         [138.40644305249245, -34.68275340536241],
+         [138.38584368725807, -34.651692429034455],
+         [138.3868736555198, -34.66694199987794],
+         [138.40094988842995, -34.68501193115683],
+         [138.41845934887917, -34.69771499073213]]),
+    seagrass = 
+    /* color: #ff9999 */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([138.38771220667255, -34.61202662675143]),
+            {
+              "landcover": 3,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.33690043909442, -34.57245873107361]),
+            {
+              "landcover": 3,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3472001217116, -34.57952580877444]),
+            {
+              "landcover": 3,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3190476558913, -34.545315570413806]),
+            {
+              "landcover": 3,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.31527110559833, -34.554929786076215]),
+            {
+              "landcover": 3,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.31458446009051, -34.55804002977362]),
+            {
+              "landcover": 3,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3080613277663, -34.530043650789466]),
+            {
+              "landcover": 3,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.29432841761005, -34.520992302412864]),
+            {
+              "landcover": 3,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.31801768762958, -34.53343765281751]),
+            {
+              "landcover": 3,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.30153819544208, -34.54984004557095]),
+            {
+              "landcover": 3,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.39481920271652, -34.614790480174044]),
+            {
+              "landcover": 3,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.39825243025558, -34.633154270409726]),
+            {
+              "landcover": 3,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.44460100203293, -34.68743904397631]),
+            {
+              "landcover": 3,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.50639909773605, -34.7379559617755]),
+            {
+              "landcover": 3,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.50193590193527, -34.729773751348084]),
+            {
+              "landcover": 3,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5029634924142, -34.7561484911118]),
+            {
+              "landcover": 3,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.53386254026577, -34.76517420856268]),
+            {
+              "landcover": 3,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.529399344465, -34.7564305597178]),
+            {
+              "landcover": 3,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.53420586301968, -34.753045672852224]),
+            {
+              "landcover": 3,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5187563390939, -34.74091535560687]),
+            {
+              "landcover": 3,
+              "system:index": "19"
+            })]),
+    tidal_flat = 
+    /* color: #99ff99 */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([138.4865143446948, -34.760151248550706]),
+            {
+              "landcover": 5,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.48479773092527, -34.791354547897306]),
+            {
+              "landcover": 5,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.37201724621332, -34.59417468988342]),
+            {
+              "landcover": 5,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3408844957346, -34.53814608705718]),
+            {
+              "landcover": 5,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.33333139514866, -34.52775210672229]),
+            {
+              "landcover": 5,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.32981233692112, -34.52499430232788]),
+            {
+              "landcover": 5,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3251774797434, -34.51990273122703]),
+            {
+              "landcover": 5,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.33899622058811, -34.534610865206155]),
+            {
+              "landcover": 5,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.31547861194554, -34.514315788194914]),
+            {
+              "landcover": 5,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.31101541614476, -34.513184209805296]),
+            {
+              "landcover": 5,
+              "system:index": "9"
+            })]),
+    water_body = 
+    /* color: #110cff */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([138.4530801928089, -34.74346732045947]),
+            {
+              "landcover": 4,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.44690038323859, -34.7152512640998]),
+            {
+              "landcover": 4,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.41188146234015, -34.71807330316099]),
+            {
+              "landcover": 4,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.39677526116827, -34.69549429436804]),
+            {
+              "landcover": 4,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.38029576898077, -34.674038528583935]),
+            {
+              "landcover": 4,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.39952184319952, -34.65144750590038]),
+            {
+              "landcover": 4,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.36724950433234, -34.65314204623939]),
+            {
+              "landcover": 4,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.43591405511359, -34.72992481550159]),
+            {
+              "landcover": 4,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.42836095452765, -34.69492974019206]),
+            {
+              "landcover": 4,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.43866063714484, -34.690413168146264]),
+            {
+              "landcover": 4,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.47161962151984, -34.71807330316099]),
+            {
+              "landcover": 4,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.47299291253546, -34.73838914119507]),
+            {
+              "landcover": 4,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.46135724147314, -34.702922650037614]),
+            {
+              "landcover": 4,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.48401654323095, -34.72183129134785]),
+            {
+              "landcover": 4,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.4977494533872, -34.735375122496585]),
+            {
+              "landcover": 4,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.52727521022314, -34.75201970761653]),
+            {
+              "landcover": 4,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.51332172323742, -34.7412192542765]),
+            {
+              "landcover": 4,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.53495105673352, -34.762375550315674]),
+            {
+              "landcover": 4,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.46715890199593, -34.70654208499408]),
+            {
+              "landcover": 4,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.4276767852967, -34.65741802310077]),
+            {
+              "landcover": 4,
+              "system:index": "19"
+            })]),
+    other = 
+    /* color: #ffff99 */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([138.4702463305042, -34.61020301594453]),
+            {
+              "landcover": 0,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.4812326586292, -34.62263502080972]),
+            {
+              "landcover": 0,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5299844896839, -34.697187933788975]),
+            {
+              "landcover": 0,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.53822423577765, -34.69605884469287]),
+            {
+              "landcover": 0,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5959024584339, -34.674038528583935]),
+            {
+              "landcover": 0,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.59796239495734, -34.71186469010583]),
+            {
+              "landcover": 0,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.59315587640265, -34.75418689605428]),
+            {
+              "landcover": 0,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5299844896839, -34.71186469010583]),
+            {
+              "landcover": 0,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5080118334339, -34.68871939008859]),
+            {
+              "landcover": 0,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.48329259515265, -34.65144750590038]),
+            {
+              "landcover": 0,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.45445348382452, -34.61811450720911]),
+            {
+              "landcover": 0,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.40120581820224, -34.52542175885399]),
+            {
+              "landcover": 0,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.41943456292609, -34.54462166212228]),
+            {
+              "landcover": 0,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.4655945229528, -34.63751404511254]),
+            {
+              "landcover": 0,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5483494710605, -34.84635658785436]),
+            {
+              "landcover": 0,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.52946671959566, -34.832830968466325]),
+            {
+              "landcover": 0,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.50234422203707, -34.81028333137757]),
+            {
+              "landcover": 0,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.58439836022066, -34.817611990408444]),
+            {
+              "landcover": 0,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.58783158775972, -34.84889239406076]),
+            {
+              "landcover": 0,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.59126481529879, -34.771374154474586]),
+            {
+              "landcover": 0,
+              "system:index": "19"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5922947835605, -34.77504029490475]),
+            {
+              "landcover": 0,
+              "system:index": "20"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.36841853461456, -34.5857518858578]),
+            {
+              "landcover": 0,
+              "system:index": "21"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.37180884680942, -34.58269567743758]),
+            {
+              "landcover": 0,
+              "system:index": "22"
+            })]),
+    saltmarsh = 
+    /* color: #99ffff */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([138.37171304300193, -34.570326035937406]),
+            {
+              "landcover": 2,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3857892759121, -34.57456646342766]),
+            {
+              "landcover": 2,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.36656320169334, -34.567781675633306]),
+            {
+              "landcover": 2,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.37634790017967, -34.570184684629695]),
+            {
+              "landcover": 2,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3644578738112, -34.56419711486827]),
+            {
+              "landcover": 2,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.39948414048146, -34.5902055509549]),
+            {
+              "landcover": 2,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.53427323815035, -34.7932085157381]),
+            {
+              "landcover": 2,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5724450804069, -34.77973798191423]),
+            {
+              "landcover": 2,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.37410965036455, -34.575787214598535]),
+            {
+              "landcover": 2,
+              "system:index": "8"
+            })]),
+    mangrove = 
+    /* color: #ff99ff */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([138.36058513866362, -34.57523710025777]),
+            {
+              "landcover": 1,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.36401836620269, -34.58145595250586]),
+            {
+              "landcover": 1,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.38049785839019, -34.59021809092523]),
+            {
+              "landcover": 1,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.39045421825347, -34.597848878027094]),
+            {
+              "landcover": 1,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.40659038768706, -34.6088698885328]),
+            {
+              "landcover": 1,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.4302796577066, -34.636839730033884]),
+            {
+              "landcover": 1,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.43531354965756, -34.664100374566615]),
+            {
+              "landcover": 1,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.55487260338472, -34.77488022138357]),
+            {
+              "landcover": 1,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.56379899498629, -34.78644161975949]),
+            {
+              "landcover": 1,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.53461656090425, -34.78587768669838]),
+            {
+              "landcover": 1,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5593357991855, -34.79743754375298]),
+            {
+              "landcover": 1,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.55521592613863, -34.808995780206665]),
+            {
+              "landcover": 1,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5696354818027, -34.787569474314516]),
+            {
+              "landcover": 1,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.5483494710605, -34.779392179374256]),
+            {
+              "landcover": 1,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.54457292076754, -34.81378774436818]),
+            {
+              "landcover": 1,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.44230830850123, -34.653337372065856]),
+            {
+              "landcover": 1,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.44230830850123, -34.65072494740218]),
+            {
+              "landcover": 1,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([138.3782974136624, -34.581136383695835]),
+            {
+              "landcover": 1,
+              "system:index": "17"
+            })]),
+    table = ee.FeatureCollection("projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_water_buffer_large");
+
+// Global intertidal zones and DeltaDTM
+// {
+var dataset = ee.ImageCollection("UQ/murray/Intertidal/v1_1/global_intertidal");
+var img_num = dataset.size();
+print('tidal flats',dataset)
+
+var tidalflats = ee.Image(dataset.toList(img_num).get(10));
+var visualization = {
+  bands: ['classification'],
+  min: 0,
+  max: 1,
+  palette: ['0000ff']
+};
+Map.addLayer(tidalflats, visualization, 'Intertidal areas');
+
+
+var delta_dtm = ee.Image("projects/sat-io/open-datasets/DELTARES/deltadtm_v1");
+var elevation = delta_dtm.select('b1');
+elevation = elevation.unmask(0);
+
+var elevationVis = {
+  min: 0,
+  max: 15.0,
+  // cmocean deep
+  palette: ["281a2c", "3f396c", "3e6495", "488e9e", "5dbaa4", "a5dfa7", "fdfecc"]
+};
+
+Map.addLayer(elevation, elevationVis, 'DeltaDTM');
+//}
+
+
+////////////////////////////////// LTGC ///////////////////////////////////
+
+var whole_image = ee.Image(1).clip(geometry);
+//Map.addLayer(whole_image,{max:2,min:0},'whole_image')
+var area = area_sum(whole_image).get('image_area');
+var thre = ee.Number(area).multiply(ee.Number(0.6));
+print(thre);
+
+Map.centerObject(geometry,12);
+var startDate = '2019-01-01';
+var endDate = '2020-01-01';
+
+var s2 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED');
+var csPlus = ee.ImageCollection('GOOGLE/CLOUD_SCORE_PLUS/V1/S2_HARMONIZED');
+
+function scaleBands(img){
+  var prop = img.toDictionary();
+  var t = img.select(['B1','B2','B3','B4','B5','B6','B7','B8','B8A','B9','B11','B12']).divide(ee.Number(10000.0));
+  t = t.set(prop).copyProperties(img,['system:time_start','system:time_end']);
+  return ee.Image(t);
+} 
+// Use 'cs' or 'cs_cdf', depending on your use case; see docs for guidance.
+var QA_BAND = 'cs_cdf';
+
+// The threshold for masking; values between 0.50 and 0.65 generally work well.
+// Higher values will remove thin clouds, haze & cirrus shadows.
+var CLEAR_THRESHOLD = 0.65;
+
+var s2_all_cloudmask_water_land = s2
+    .filterBounds(geometry)
+    .filterDate(startDate, endDate)
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',30))
+    .linkCollection(csPlus, [QA_BAND])
+    .map(function(img) {
+      return img.updateMask(img.select(QA_BAND).gte(CLEAR_THRESHOLD));
+    })
+    .map(function (img) {return img.clip(geometry)});//
+
+s2_all_cloudmask_water_land = s2_all_cloudmask_water_land.map(scaleBands)    
+print('s2_all_cloudmask',s2_all_cloudmask_water_land)
+
+var num_img = s2_all_cloudmask_water_land.size();
+print(num_img)
+var prj = s2_all_cloudmask_water_land.first().select('B1').projection()
+var crs = prj.getInfo()['crs']
+print(crs);
+
+print(area_sum(s2_all_cloudmask_water_land.first()))
+
+var green_images2 = s2_all_cloudmask_water_land.map(NDVI).map(NDWI).map(PSRI)
+              .map(area_sum).filter(ee.Filter.gt('image_area',thre))
+              .map(function(img){return addNDVI(img,flat2)}).sort('MeanNDVI',false);
+              // 20%
+print('green_images2',green_images2);
+print(green_images2.aggregate_array('MeanNDVI'))
+var LTGC2 = green_images2.limit(num_img.divide(20).round()).median();// The value could be set as 10, 15, and 20 according to the composite image quality
+Map.addLayer(LTGC2,{bands:['B8','B4','B3'],max:0.3,min:0},'green_image2');
+
+var water_images = green_images2.map(function(img){return addNDWI(img,flat2)}).sort('MeanNDWI',false);
+              // 20%
+var num_img = water_images.size();
+print(num_img)
+print('water_images',water_images);
+print(water_images.aggregate_array('MeanNDWI'))
+var HETC = water_images.limit(num_img.divide(10).round()).qualityMosaic('NDWI') // The value could be set as 5 and 10 according to the composite image quality
+Map.addLayer(HETC,{bands:['B8','B4','B3'],max:0.3,min:0},'water_image2');
+
+// Export.image.toAsset({
+//   image:HETC,
+//   description:'Australia_Adelaide_HETC_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_HETC_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// });
+
+var rf = ee.Classifier.smileRandomForest(50);
+var train_bands = (HETC).bandNames();
+
+var training = (water_body).merge(other);
+var seed = [0,1,2,3,4,5,6,7,8,9];
+var veg = ee.ImageCollection([]);
+for (var i = 0; i<10;i++){ 
+  var TrainingData = (HETC).sampleRegions({
+    collection: training,
+    properties: ['landcover'],
+    scale: 10,
+    tileScale: 16
+  }).randomColumn("random",seed[i]);
+  var training1= TrainingData.filter(ee.Filter.lt("random",0.7));
+  var veg_size = training1.size();
+  var classifierRF = rf.train(training1, 'landcover',train_bands);
+  var classifiedRF = (HETC).classify(classifierRF);
+  var veg = veg.merge(classifiedRF);
+}
+var wetlands = veg.mode().select("classification").toInt8()//.updateMask(elevation.lte(5));
+
+// Export.image.toDrive({
+//   image:wetlands,
+//   description:'Adelaide_Land_water',
+//   folder:'Adelaide_Land_water',
+//   scale:30,
+//   crs:crs,
+//   region:geometry
+// })
+
+var wetland_nonwater = wetlands.updateMask(wetlands.neq(4)).add(ee.Image(1));
+wetland_nonwater = wetland_nonwater.divide(wetland_nonwater);
+Map.addLayer(wetland_nonwater,{palette:['#ffd31c']},'non_water_wetlands');
+var wetland_water = wetlands.updateMask(wetlands.eq(4));
+Map.addLayer(wetland_water,{min:0,max:4,palette:['#c1c1c4','#60c60e','#d1ff04','#02ff05','#127ce9']},'water_wetlands');
+
+var vectors = wetland_water.int16().reduceToVectors({
+  geometry: geometry,
+  crs: crs,
+  scale: 10,
+  geometryType: 'polygon',
+  eightConnected: false,
+  labelProperty: 'tide',
+  tileScale: 16,
+  maxPixels: 1e13
+});
+
+var max_water = vectors.filterBounds(water);
+Map.addLayer(max_water,{},'max_water'); //'color':'#0657ff'
+var max_water_buffer = max_water.geometry().buffer({'distance':50,'maxError':1});
+
+
+// Export.table.toAsset({
+//   collection:ee.FeatureCollection(max_water),
+//   description:'Adelaide_water',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_water_large'
+// })
+
+// Export.table.toAsset({
+//   collection:ee.FeatureCollection(max_water_buffer),
+//   description:'Adelaide_water_buffer',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_water_buffer_large'
+// })
+
+var non_water = wetlands.updateMask(wetlands.eq(1));
+Map.addLayer(non_water,{min:0,max:4,palette:['#c1c1c4','#60c60e','#d1ff04','#02ff05','#127ce9']},'non_water');
+
+
+var s2_all_cloudmask = s2
+    .filterBounds(geometry)
+    .filterDate(startDate, endDate)
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',30))
+    .linkCollection(csPlus, [QA_BAND])
+    .map(function(img) {
+      return img.updateMask(img.select(QA_BAND).gte(CLEAR_THRESHOLD));
+    })
+    .map(function (img) {return img.clip(geometry)});//  
+    
+s2_all_cloudmask = s2_all_cloudmask.map(scaleBands)    
+print('s2_all_cloudmask',s2_all_cloudmask)
+
+
+var num_img = s2_all_cloudmask.size();
+print(num_img)
+var prj = s2_all_cloudmask.first().select('B1').projection()
+var crs = prj.getInfo()['crs']
+print(crs);
+
+var green_images = s2_all_cloudmask.map(NDVI).map(NDWI).map(PSRI)
+              .map(area_sum).filter(ee.Filter.gt('image_area',thre))
+              .map(function(img){return addNDVI(img,seagrass.merge(saltmarsh))}).sort('MeanNDVI',false);
+              // 20%
+print('green_images',green_images);
+print(green_images.aggregate_array('MeanNDVI'))
+
+
+var LTGC = green_images.limit(num_img.divide(20).round()).median(); // The value could be set as 10, 15, and 20 according to the composite image quality
+Map.addLayer(LTGC,{bands:['B8','B4','B3'],max:0.3,min:0},'LTGC');
+
+// Export.image.toAsset({
+//   image:LTGC,
+//   description:'Australia_Adelaide_LTGC_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_LTGC_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+var dormant_images =  s2
+    .filterBounds(geometry)
+    .filterDate(startDate, endDate)
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',30))
+    .linkCollection(csPlus, [QA_BAND])
+    .map(function(img) {
+      return img.updateMask(img.select(QA_BAND).gte(CLEAR_THRESHOLD));
+    })
+    .map(function (img) {return img.clip(geometry)});
+
+dormant_images = dormant_images.map(scaleBands).map(area_sum).filter(ee.Filter.gt('image_area',thre));    
+print('dormant_images',dormant_images)
+var CFSCs = dormant_images.map(NDVI).map(NDWI).map(PSRI)
+              .map(function(img){return addPSRI(img,(saltmarsh))}).sort('MeanNDVI',false);
+var num_img = CFSCs.size();
+print(num_img)
+var CFSC = CFSCs.limit(num_img.divide(10).round()).median()
+Map.addLayer(CFSC,{bands:['B8','B4','B3'],max:0.3,min:0},'CFSC')
+
+// Export.image.toAsset({
+//   image:CFSC,
+//   description:'Australia_Adelaide_CFSC_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_CFSC_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+
+////////////////////////////////// GROSAR ///////////////////////////////////
+var SAR1 = S1.filterBounds(geometry).filterDate(startDate, endDate);
+print(SAR1);
+
+var prj = SAR1.first().select('VV').projection()
+var crs = prj.getInfo()['crs']
+print(crs);
+
+var whole_image = ee.Image(1).clip(geometry);
+//Map.addLayer(whole_image,{max:2,min:0},'whole_image')
+
+var area = area_sum(whole_image).get('image_area');
+print(area)
+
+                    
+var thre = ee.Number(area).multiply(ee.Number(0.8));
+
+var s1_preprocces_view = SAR1.map(function(image){return image.clip(geometry)})
+                    .map(area_sum).filter(ee.Filter.gt('image_area',thre))
+print('s1_preprocces_view',s1_preprocces_view)
+
+var img_num = s1_preprocces_view.size();
+var S1_images = s1_preprocces_view.map(addVV_saltmarsh).map(addVH_saltmarsh).map(addVV_flat).map(addVV_water).map(add_DFW_VV)
+                .map(addVH_flat).map(addVH_water).map(add_DFW_VH).sort('flat_water_diff_VV',false);
+
+var img_num = S1_images.size();
+
+                
+print(S1_images.sort('MeanVV_saltmarsh',false).aggregate_array('MeanVV_saltmarsh')) // 
+var GROSAR = S1_images.sort('MeanVV_saltmarsh',false).limit(img_num.divide(3).round()).median().reproject({'crs':crs,'scale':10});
+var image_VV = GROSAR.select('VV');
+var image_VH = GROSAR.select('VH')
+Map.addLayer(image_VV,{bands:['VV'],max:-5,min:-25},'image_VV');
+Map.addLayer(image_VH,{bands:['VH'],max:-10,min:-30},'image_VH');
+
+// Export.image.toAsset({
+//   image:GROSAR,
+//   description:'Australia_Adelaide_GROSAR_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_GROSAR_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+////////////////////////////////// MCLSAR ///////////////////////////////////
+var SAR2 = S1.filterBounds(geometry).filterDate(startDate, endDate);
+print(SAR2);
+
+var prj = SAR2.first().select('VV').projection()
+var crs = prj.getInfo()['crs']
+print(crs);
+
+var whole_image = ee.Image(1).clip(geometry);
+//Map.addLayer(whole_image,{max:2,min:0},'whole_image')
+
+var area = area_sum(whole_image).get('image_area');
+print(area)
+
+                    
+var thre = ee.Number(area).multiply(ee.Number(0.8));
+
+var s1_preprocces_view = SAR2.map(function(image){return image.clip(geometry)})
+                    .map(area_sum).filter(ee.Filter.gt('image_area',thre))
+print('s1_preprocces_view',s1_preprocces_view)
+
+var S1_images = s1_preprocces_view.map(addVV_saltmarsh).map(addVH_saltmarsh).map(addVV_flat).map(addVV_water).map(add_DFW_VV)
+                .map(addVH_flat).map(addVH_water).map(add_DFW_VH);
+
+var img_num = S1_images.size();
+
+                
+print(S1_images.sort('flat_water_diff_VV',false).aggregate_array('flat_water_diff_VV')) // 
+var MLCSAR = S1_images.sort('flat_water_diff_VV',false).limit(S1_images.size().divide(3).round()).median().reproject({'crs':crs,'scale':10});
+var image_VV_lowtide = MLCSAR.select('VV');
+var image_VH_lowtide = MLCSAR.select('VH')
+Map.addLayer(image_VV_lowtide,{bands:['VV'],max:-5,min:-25},'image_VV_L');
+Map.addLayer(image_VH_lowtide,{bands:['VH'],max:-10,min:-30},'image_VH_L');
+
+// Export.image.toAsset({
+//   image:MLCSAR,
+//   description:'Australia_Adelaide_MCLSAR_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MCLSAR_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+////////////////////////////////// MCHSAR ///////////////////////////////////
+var SAR2 = S1.filterBounds(geometry).filterDate(startDate, endDate);
+print(SAR2);
+
+var prj = SAR2.first().select('VV').projection()
+var crs = prj.getInfo()['crs']
+print(crs);
+
+var whole_image = ee.Image(1).clip(geometry);
+//Map.addLayer(whole_image,{max:2,min:0},'whole_image')
+
+var area = area_sum(whole_image).get('image_area');
+print(area)
+
+                    
+var thre = ee.Number(area).multiply(ee.Number(0.8));
+
+var s1_preprocces_view = SAR2.map(function(image){return image.clip(geometry)})
+                    .map(area_sum).filter(ee.Filter.gt('image_area',thre))
+print('s1_preprocces_view',s1_preprocces_view)
+
+var S1_images = s1_preprocces_view.map(addVV_saltmarsh).map(addVH_saltmarsh).map(addVV_flat).map(addVV_water).map(add_DFW_VV)
+                .map(addVH_flat).map(addVH_water).map(add_DFW_VH);
+
+var img_num = S1_images.size();
+
+                
+print(S1_images.sort('flat_water_diff_VV').aggregate_array('flat_water_diff_VV')) // 
+var MCHSAR = S1_images.sort('flat_water_diff_VV').limit(S1_images.size().divide(3).round()).median().reproject({'crs':crs,'scale':10});
+var image_VV_hightide = MCHSAR.select('VV');
+var image_VH_hightide = MCHSAR.select('VH')
+Map.addLayer(image_VV_hightide,{bands:['VV'],max:-5,min:-25},'image_VV_H');
+Map.addLayer(image_VH_hightide,{bands:['VH'],max:-10,min:-30},'image_VH_H');
+
+// Export.image.toAsset({
+//   image:MLCSAR,
+//   description:'Australia_Adelaide_MCHSAR_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MCHSAR_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+////////////////////////////////// DORSAR ///////////////////////////////////
+var SAR2 = S1.filterBounds(geometry).filterDate(startDate, endDate);
+print(SAR2);
+
+var prj = SAR2.first().select('VV').projection()
+var crs = prj.getInfo()['crs']
+print(crs);
+
+var whole_image = ee.Image(1).clip(geometry);
+//Map.addLayer(whole_image,{max:2,min:0},'whole_image')
+
+var area = area_sum(whole_image).get('image_area')
+print(area)
+
+                    
+var thre = ee.Number(area).multiply(ee.Number(0.8));
+
+var s1_preprocces_view = SAR2.map(function(image){return image.clip(geometry)})
+                    .map(area_sum).filter(ee.Filter.gt('image_area',thre))
+print('s1_preprocces_view',s1_preprocces_view)
+
+var img_num = s1_preprocces_view.size();
+var S1_images = s1_preprocces_view.map(addVV_saltmarsh).map(addVH_saltmarsh).map(addVV_flat).map(addVV_water).map(add_DFW_VV)
+                .map(addVH_flat).map(addVH_water).map(add_DFW_VH).sort('flat_water_diff_VV',false)//.limit(img_num.divide(2).round());
+
+print(S1_images.sort('MeanVV_saltmarsh').aggregate_array('MeanVV_saltmarsh')) // 
+var dormant_SAR = S1_images.sort('MeanVV_saltmarsh').limit(img_num.divide(3).round()).median().reproject({'crs':crs,'scale':10});
+var image_VV_dor = dormant_SAR.select('VV');
+var image_VH_dor = dormant_SAR.select('VH')
+Map.addLayer(image_VV_dor,{bands:['VV'],max:-5,min:-25},'image_VV_dor');
+Map.addLayer(image_VH_dor,{bands:['VH'],max:-10,min:-30},'image_VH_dor');
+
+// Export.image.toAsset({
+//   image:dormant_SAR,
+//   description:'Australia_Adelaide_DORSAR_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_DORSAR_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+
+var band = LTGC.bandNames().remove('B1');
+print(band)
+var CFSC = CFSC.select(band)
+print(CFSC)
+var bluecarbon_con = remove_water(LTGC).select(band).addBands(CFSC.select(band)).addBands(HETC.select(band))
+                      .addBands(image_VV).addBands(image_VH).addBands(image_VV_lowtide).addBands(image_VH_lowtide)
+                      .addBands(image_VV_dor).addBands(image_VH_dor).addBands(image_VV_hightide).addBands(image_VH_hightide);
+                      
+var rf = ee.Classifier.smileRandomForest(200);
+var train_bands = bluecarbon_con.bandNames();
+var training = seagrass.merge(saltmarsh).merge(other).merge(tidal_flat.map(function (feat) {return feat.set('landcover',0)})).merge(mangrove);
+
+Export.table.toAsset({
+  collection:training,
+  description:'Australia_Adelaide_mangrove_saltmarsh_seagrass_phe_training_2019',
+  assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_mangrove_saltmarsh_seagrass_phe_training_2019'
+})
+
+var seed = [0,1,2,3,4,];
+var veg = ee.ImageCollection([]);
+for (var i = 0; i<10;i++){ 
+  var TrainingData = bluecarbon_con.sampleRegions({
+    collection: training,
+    properties: ['landcover'],
+    scale: 10,
+    tileScale: 16
+  }).randomColumn("random",seed[i]);
+  var training1= TrainingData.filter(ee.Filter.lt("random",0.7));
+  var veg_size = training1.size();
+  var classifierRF = rf.train(training1, 'landcover',train_bands);
+  var classifiedRF = bluecarbon_con.classify(classifierRF);
+  var veg = veg.merge(classifiedRF);
+}
+var veg_wetlands = veg.mode().select("classification").toInt8().updateMask(elevation.lte(5)); //.updateMask(alos.lte(5))
+Map.addLayer(veg_wetlands.mask(veg_wetlands.gte(0)),{min:0,max:4,palette:['#c1c1c4','#60c60e','#d1ff04','#aeff8d','#127ce9']},'veg_wetlands');
+
+Map.addLayer(table,{'color':'blue'},'waterbuffer')
+
+// Export.image.toAsset({
+//   image:veg_wetlands,
+//   description:'Australia_Adelaide_mangrove_saltmarsh_seagrass_result_2019',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_mangrove_saltmarsh_seagrass_result_pho_tide_opt_SAR_2019',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+
+
+//{
+
+  
+
+
+function remove_water(img){
+  var image_ndwi = img.select(['NDWI']);
+  img = img.updateMask(image_ndwi.lt(0));
+  return img;
+}
+
+/////////----------------------------------------/////////
+
+function addVV_flat(img){ // Calculating median VV of tidal flat samples
+  var img2 = img.select("VV")
+  var value = img2.reduceRegion({'reducer':ee.Reducer.median(), 'geometry':flat2, 'maxPixels':1e16, 'scale':20,'tileScale':16})
+  return img.set('MeanVV_flat', ee.Number(value.get("VV")))
+}
+
+function addVH_flat(img){ // Calculating median VH of tidal flat samples
+  var img2 = img.select("VH")
+  var value = img2.reduceRegion({'reducer':ee.Reducer.median(), 'geometry':flat2, 'maxPixels':1e16, 'scale':20, 'tileScale':16})
+  return img.set('MeanVH_flat', ee.Number(value.get("VH")))
+}
+
+function addVV_saltmarsh(img){ // Calculating median VV of tidal flat samples
+  var img2 = img.select("VV")
+  var value = img2.reduceRegion({'reducer':ee.Reducer.median(), 'geometry':saltmarsh, 'maxPixels':1e16, 'scale':20,'tileScale':16})
+  return img.set('MeanVV_saltmarsh', ee.Number(value.get("VV")))
+}
+
+function addVH_saltmarsh(img){ // Calculating median VH of tidal flat samples
+  var img2 = img.select("VH")
+  var value = img2.reduceRegion({'reducer':ee.Reducer.median(), 'geometry':saltmarsh, 'maxPixels':1e16, 'scale':20, 'tileScale':16})
+  return img.set('MeanVH_saltmarsh', ee.Number(value.get("VH")))
+}
+
+function addVV_water(img){ // Calculating median VV of water samples
+  var img2 = img.select("VV")
+  var value = img2.reduceRegion({'reducer':ee.Reducer.median(), 'geometry':water, 'maxPixels':1e16, 'scale':20,'tileScale':16})
+  return img.set('MeanVV_water', ee.Number(value.get("VV")))
+}
+
+function addVH_water(img){ // Calculating median VH of water samples
+  var img2 = img.select("VH")
+  var value = img2.reduceRegion({'reducer':ee.Reducer.median(), 'geometry':water, 'maxPixels':1e16, 'scale':20,'tileScale':16})
+  return img.set('MeanVH_water', ee.Number(value.get("VH")))
+}
+
+function add_DFW_VV(image){
+  var water_VV = image.get('MeanVV_water');
+  var flat_VV = image.get('MeanVV_flat');
+  var flat_water_VV = ee.Number(flat_VV).subtract(ee.Number(water_VV)).abs();
+  return image.set('flat_water_diff_VV',flat_water_VV);
+}
+
+function add_DFW_VH(image){
+  var water_VH = image.get('MeanVH_water');
+  var flat_VH = image.get('MeanVH_flat');
+  var flat_water_VH = ee.Number(flat_VH).subtract(ee.Number(water_VH)).abs();
+  return image.set('flat_water_diff_VH',flat_water_VH);
+}
+
+function NDVI(image) {
+  return image.addBands(
+    image.normalizedDifference(["B8", "B4"])
+        .rename("NDVI"));
+}
+
+function addNDVI(img,sample){ // Calculating mean NDVI of tidal flat samples
+  var img2 = img.select("NDVI");
+  var value = img2.reduceRegion({reducer:ee.Reducer.mean(),geometry:sample,maxPixels:1e16})
+  return img.set('MeanNDVI', ee.Number(value.get("NDVI")));
+}
+
+
+function NDWI(image) {    
+  return image.addBands(
+    image.normalizedDifference(["B3", "B8"])
+        .rename("NDWI"));
+}
+
+function addNDWI(img,sample){ // Calculating mean NDWI of tidal flat samples
+  var img2 = img.select("NDWI");
+  var value = img2.reduceRegion({reducer:ee.Reducer.median(),geometry:sample,maxPixels:1e16})
+  return img.set('MeanNDWI', ee.Number(value.get("NDWI")));
+}
+
+function MNDWI(image) {    
+  return image.addBands(
+    image.normalizedDifference(["B3", "B11"])
+        .rename("MNDWI"));
+}
+
+function area_sum(image){
+  var band = ee.String(image.bandNames().get(0));
+  var area = image.select(band).divide(image.select(band)).reduceRegion({
+      reducer:ee.Reducer.sum(),
+      geometry:geometry,
+      crs:crs,
+      scale:50,
+      maxPixels:1e16
+  });
+  var image_area = ee.Number(area.values().get(0));
+  return image.set('image_area',image_area);
+}
+
+function PSRI(image) { 
+  var psri = image.expression( 
+    '(B4 - B2)/B6',{
+    'B4': image.select('B4'),
+    'B2': image.select('B2'),
+    'B6':image.select('B6')
+    });
+  return image.addBands(psri.rename("PSRI"));
+}
+
+function addPSRI(img,sample){ //Calculating mean PSRI of tidal flat samples
+  var img2 = img.select("PSRI");
+  var value = img2.reduceRegion({reducer:ee.Reducer.median(),geometry:sample,maxPixels:1e16})
+  return img.set('MeanPSRI', ee.Number(value.get("PSRI")));
+}
+
+//}
+
