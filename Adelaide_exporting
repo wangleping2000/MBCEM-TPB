@@ -1,0 +1,105 @@
+GEE code link: https://code.earthengine.google.com/b6ec77295698bf7705f281a928d96a98
+
+var max_water = ee.FeatureCollection("projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_water_buffer_large"),
+    geometry = 
+    /* color: #999900 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[138.2713271751777, -34.5083918491509],
+          [138.2713271751777, -34.862971586092016],
+          [138.6009170189277, -34.862971586092016],
+          [138.6009170189277, -34.5083918491509]]], null, false),
+    veg_wetlands = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_mangrove_saltmarsh_seagrass_result_pho_tide_opt_SAR_2019");
+
+
+var prj = veg_wetlands.select('classification').projection()
+var crs = prj.getInfo()['crs']
+print(crs)
+
+// var weights = [[1,1,1,1,1],
+//               [1,1,2,1,1],
+//               [1,2,5,2,1],
+//               [1,1,2,1,1],
+//               [1,1,1,1,1]];
+// var kernel = ee.Kernel.fixed(5,5,weights);
+// var Multi_Class_BCEs = veg_wetlands.unmask().reduceNeighborhood({
+//   reducer: ee.Reducer.mode(),
+//   kernel: kernel
+// }).reproject(crs, null,1);
+
+// Map.addLayer(Multi_Class_BCEs,{min:0,max:4,palette:['#c1c1c4','#60c60e','#d1ff04','#aeff8d','#127ce9']},'veg_wetlands');
+var Multi_Class_BCEs = veg_wetlands;
+
+var salt_marsh = Multi_Class_BCEs.updateMask(Multi_Class_BCEs.eq(2));
+Map.addLayer(salt_marsh,{min:0,max:3,palette:['#c1c1c4','#60c60e','#d1ff04','#02ff05']},'salt_marsh')
+
+var seagrass_beds = Multi_Class_BCEs.updateMask(Multi_Class_BCEs.eq(3));
+Map.addLayer(seagrass_beds,{palette:['#02ff05']},'seagrass_beds')
+
+var mangroves = Multi_Class_BCEs.updateMask(Multi_Class_BCEs.eq(1));
+Map.addLayer(mangroves,{palette:['#60c60e']},'mangroves')
+
+var vectors = seagrass_beds.int16().reduceToVectors({
+  geometry: geometry,
+  crs: crs,
+  scale: 10,
+  geometryType: 'polygon',
+  eightConnected: true,
+  labelProperty: 'tide',
+  tileScale: 16,
+  maxPixels: 1e13
+});
+
+var seagrass_beds_shp = vectors.filterBounds(max_water);
+Map.addLayer(seagrass_beds_shp,{'color':'#09f61f'},'seagrass')
+// Export.table.toAsset({
+//   collection:ee.FeatureCollection(seagrass_beds_shp),
+//   description:'Adelaide_seagrass_beds_shp',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_seagrass_beds_shp'
+// })
+
+var vectors = mangroves.int16().reduceToVectors({
+  geometry: geometry,
+  crs: crs,
+  scale: 10,
+  geometryType: 'polygon',
+  eightConnected: true,
+  labelProperty: 'tide',
+  tileScale: 16,
+  maxPixels: 1e13
+});
+
+var mangroves = vectors.filterBounds(max_water);
+Map.addLayer(mangroves,{'color':'#60c60e'},'mangroves')
+// Export.table.toAsset({
+//   collection:ee.FeatureCollection(mangroves),
+//   description:'Adelaide_mangroves_shp',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_mangroves_shp'
+// })
+
+
+var vectors = salt_marsh.int16().reduceToVectors({
+  geometry: geometry,
+  crs: crs,
+  scale: 10,
+  geometryType: 'polygon',
+  eightConnected: true,
+  labelProperty: 'tide',
+  tileScale: 16,
+  maxPixels: 1e13
+});
+
+var saltmarsh_shp = vectors.filterBounds((mangroves).geometry());
+Map.addLayer(saltmarsh_shp,{'color':'#e2ff00'},'saltmarsh_shp')
+
+
+// Export.table.toAsset({
+//   collection:ee.FeatureCollection(saltmarsh_shp),
+//   description:'Adelaide_salt_marsh_shp',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Adelaide_salt_marsh_shp'
+// })
