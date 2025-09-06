@@ -1,0 +1,150 @@
+var geometry = 
+    /* color: #999900 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[138.2713271751777, -34.5083918491509],
+          [138.2713271751777, -34.862971586092016],
+          [138.6009170189277, -34.862971586092016],
+          [138.6009170189277, -34.5083918491509]]], null, false),
+    MLTC_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MLTC_2019"),
+    MHTC_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MHTC_2019"),
+    CFSC_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_CFSC_2019"),
+    MCLSAR_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MCLSAR_2019"),
+    MCHSAR_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MCHSAR_2021"),
+    GROSAR_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_GROSAR_2019"),
+    DORSAR_2019 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_DORSAR_2019"),
+    training_samples_2019 = ee.FeatureCollection("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_mangrove_saltmarsh_seagrass_phe_training_2019");
+var prj = MLTC_2019.select('B2').projection()
+var crs = prj.getInfo()['crs']
+print(crs)
+// ////////////////////////////////// MTLC ///////////////////////////////////
+
+Map.centerObject(geometry,12)
+var bands = ['B2','B3','B4','B8','B11','B12',]
+var delta_dtm = ee.Image("projects/sat-io/open-datasets/DELTARES/deltadtm_v1");
+var elevation = delta_dtm.select('b1');
+elevation = elevation.unmask(0);
+
+var elevationVis = {
+  min: 0,
+  max: 10.0,
+  // cmocean deep
+  palette: ["281a2c", "3f396c", "3e6495", "488e9e", "5dbaa4", "a5dfa7", "fdfecc"]
+};
+
+var optical_SAR_2019 = CFSC_2019.addBands(MHTC_2019).addBands(remove_water(MLTC_2019)).addBands(MCLSAR_2019.select(['VV','VH']))
+                       .addBands(DORSAR_2019.select(['VV','VH'])).addBands(GROSAR_2019.select(['VV','VH'])).addBands(MCHSAR_2019.select(['VV','VH']));
+                       
+print('optical_SAR_2019',optical_SAR_2019);
+print('training_samples',training_samples_2019);
+
+Map.addLayer(MLTC_2019,{bands:['B8','B4','B3'],max:0.3,min:0},'MLTC_2019');
+Map.addLayer(CFSC_2019,{bands:['B8','B4','B3'],max:0.3,min:0},'CFSC_2019');
+Map.addLayer(training_samples_2019.filter(ee.Filter.eq('landcover',2)),{'color':'#03cc01'},'saltmarsh_2019');
+Map.addLayer(training_samples_2019.filter(ee.Filter.eq('landcover',3)),{'color':'#9cff02'},'seagrass_2019');
+Map.addLayer(training_samples_2019.filter(ee.Filter.eq('landcover',1)),{'color':'#ff99ff'},'mangorve_2019');
+
+var seagrass = training_samples_2019.filter(ee.Filter.eq('landcover',3));
+print('seagrass',seagrass);
+var saltmarsh = training_samples_2019.filter(ee.Filter.eq('landcover',2));
+print('saltmarsh',saltmarsh);                
+var mangrove = training_samples_2019.filter(ee.Filter.eq('landcover',1));
+print('mangrove',mangrove);     
+var other = training_samples_2019.filter(ee.Filter.eq('landcover',0));
+print('other',other);           
+
+
+var MLTC_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MLTC_2021"),
+    MHTC_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MHTC_2021"),
+    CFSC_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_CFSC_2021"),
+    MCLSAR_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MCLSAR_2021"),
+    GROSAR_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_GROSAR_2021"),
+    DORSAR_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_DORSAR_2021"),
+    MCHSAR_2021 = ee.Image("projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_MCHSAR_2021")
+var optical_SAR_2021 = CFSC_2021.addBands(MHTC_2021).addBands(remove_water(MLTC_2021)).addBands(MCLSAR_2021.select(['VV','VH']))
+                      .addBands(DORSAR_2021.select(['VV','VH'])).addBands(GROSAR_2021.select(['VV','VH'])).addBands(MCHSAR_2021.select(['VV','VH']));
+                       
+print('optical_SAR_2021',optical_SAR_2021);
+//print('training_samples',training_samples_2021);
+
+Map.addLayer(MLTC_2021,{bands:['B8','B4','B3'],max:0.3,min:0},'MLTC_2021');
+Map.addLayer(CFSC_2021,{bands:['B8','B4','B3'],max:0.3,min:0},'CFSC_2021');
+
+var sadImg = CFSC_2019.addBands(MHTC_2019).addBands(remove_water(MLTC_2019)).spectralDistance(CFSC_2021.addBands(MHTC_2021).addBands(remove_water(MLTC_2021)), 'sam').unmask(0).rename('sadImg');
+Map.addLayer(sadImg,{max:0.8,min:-0.8},'sadImg')
+
+var training_samples_2021 = sadImg.sampleRegions({collection: training_samples_2019,  
+                              properties: ['landcover'], 
+                              scale: 10,
+                              geometries: true});
+
+var training_samples_2021_2 = training_samples_2021.filter(ee.Filter.lt("sadImg", 0.71));
+print(training_samples_2021_2);
+
+
+var seagrass = ee.FeatureCollection(training_samples_2021.filter(ee.Filter.eq('landcover',3)))
+                      .filter(ee.Filter.lt("sadImg", 0.71));
+print('seagrass',seagrass);
+
+var saltmarsh = ee.FeatureCollection(training_samples_2021.filter(ee.Filter.eq('landcover',2)))
+                  .filter(ee.Filter.lt("sadImg", 0.71));
+print('saltmarsh',saltmarsh);
+
+var mangrove = ee.FeatureCollection(training_samples_2021.filter(ee.Filter.eq('landcover',1)))
+                  .filter(ee.Filter.lt("sadImg", 0.71));
+print('mangrove',mangrove);
+                
+var other = ee.FeatureCollection(training_samples_2021.filter(ee.Filter.eq('landcover',0)))
+                  .filter(ee.Filter.lt("sadImg", 0.71)).merge(training_samples_2021.filter(ee.Filter.eq('landcover',1)).filter(ee.Filter.lt('NDVI',0.5))
+                  ).map(function (feat){return feat.set('landcover',0)});
+print('other',other);
+
+Map.addLayer(saltmarsh,{'color':'#03cc01'},'saltmarsh_2023');
+Map.addLayer(seagrass,{'color':'#9cff02'},'seagrass_2023');
+Map.addLayer(mangrove,{'color':'#ff99ff'},'mangorve_2023');
+Map.addLayer(other,{'color':'grey'},'other_2023');
+
+
+// seagrass.merge(saltmarsh).merge(other).merge(tidal_flat
+var rf = ee.Classifier.smileRandomForest(200);
+var train_bands = optical_SAR_2021.bandNames();
+var training = seagrass.merge(saltmarsh).merge(other).merge(mangrove);
+print('training',training)
+var seed = [0,1,2,3,4,];
+var veg = ee.ImageCollection([]);
+for (var i = 0; i<10;i++){ 
+  var TrainingData = optical_SAR_2021.sampleRegions({
+    collection: training,
+    properties: ['landcover'],
+    scale: 10,
+    tileScale: 16
+  }).randomColumn("random",seed[i]);
+  var training1= TrainingData.filter(ee.Filter.lt("random",0.7));
+  var veg_size = training1.size();
+  var classifierRF = rf.train(training1, 'landcover',train_bands);
+  var classifiedRF = optical_SAR_2021.classify(classifierRF);
+  var veg = veg.merge(classifiedRF);
+}
+var veg_wetlands = veg.mode().select("classification").toInt8().updateMask(elevation.lte(5)); 
+Map.addLayer(veg_wetlands.mask(veg_wetlands.gte(0)),{min:0,max:4,palette:['#c1c1c4','#60c60e','#d1ff04','#02ff05','#127ce9']},'veg_wetlands');
+
+// Export.image.toAsset({
+//   image:veg_wetlands,
+//   description:'Australia_Adelaide_mangrove_saltmarsh_seagrass_result_2021',
+//   assetId:'projects/ee-wanglp2000-seagrass/assets/Australia/Australia_Adelaide_mangrove_saltmarsh_seagrass_result_pho_tide_opt_SAR_2021',
+//   region:geometry,
+//   scale:10,
+//   crs:crs,
+//   maxPixels:1e13
+// })
+
+function remove_water(img){
+  var image_ndwi = img.select(['NDWI']);
+  img = img.updateMask(image_ndwi.lt(0));
+  return img;
+}
